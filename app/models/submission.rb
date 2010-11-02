@@ -11,6 +11,14 @@ class Submission < ActiveRecord::Base
   
   validates_presence_of :input_files, :message => " - You must choose at least one input file!"
   
+  def project
+    begin
+      @project = Project.find(self.project_id)
+    rescue
+      @project = nil
+    end
+  end
+  
   
   def lookup_input_files
     

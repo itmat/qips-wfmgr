@@ -23,13 +23,28 @@
 </p>
 <p>
 
-  <b>Destination Project:</b>
-  <% if RAILS_ENV == 'cucumber' || RAILS_ENV == 'test'
-	    popup = {} 
-	 else 
+  	<b>Destination Project:</b>
+
+	<%
+	if RAILS_ENV == 'cucumber' || RAILS_ENV == 'test'
+		popup = {}
+	else
 		popup = {:popup => true }
-	 end %>
-  <%= link_to Project.find(@submission.project_id).name, "#{PUBLIC_ILIMS_SITE}/projects/#{@submission.project_id}", popup %>
+	end 
+
+	if @project.blank? %>
+
+	[ilims project not found]
+
+	<%
+	else
+	%>
+
+	  <%= link_to @project.name, "#{PUBLIC_ILIMS_SITE}/projects/#{@submission.project_id}", popup %>
+
+	<%
+	end
+	%>
 
 </p>
 <p>

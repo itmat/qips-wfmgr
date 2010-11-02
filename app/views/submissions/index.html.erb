@@ -13,7 +13,11 @@
 	 <% if current_user.admin? %>
 	   <%=h User.find(submission.user_id).username %> --
 	 <% end -%>	
-	 <%=h Project.find(submission.project_id).name %>
+	<% if submission.project -%>
+	  <%=h submission.project.name %>
+	<% else -%>
+      NO LIMS PROJECT
+	<% end-%>
 	</td>
 	<td>|<% submission.tasks.each do |t| %>
 		<%= t.protocol.name %> | 

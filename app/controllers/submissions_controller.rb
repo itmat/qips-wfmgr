@@ -13,6 +13,7 @@ class SubmissionsController < ApplicationController
     else
       @submissions = Submission.find(:all, :conditions => {:user_id => session[:user_id]}, :order => 'created_at DESC')
     end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @submissions }
@@ -23,6 +24,14 @@ class SubmissionsController < ApplicationController
   # GET /submissions/1.xml
   def show
     @submission = Submission.find(params[:id])
+    
+    begin
+      @project = Project.find(@submission.project_id)
+    rescue
+      @project = nil
+      @submission.project_id = nil
+      @submission.save
+    end
     
     #now lets get the nice xml to display!
     xml = Ruote::Parser.to_xml(@submission.process_definition)
